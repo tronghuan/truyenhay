@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Trang Truyện</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Palatino Linotype", "Arial", "Times New Roman", sans-serif;
+
+        }
+
+        div.content {
+            font-size: 24px;
+        }
+    </style>
+    <script>
+        // Hàm để tải file HTML vào vị trí cụ thể
+        function includeHTML() {
+            var elements = document.querySelectorAll('[data-include]');
+            elements.forEach(function(element) {
+                var file = element.getAttribute("data-include");
+                fetch(file)
+                .then(response => response.text())
+                .then(data => element.innerHTML = data)
+                .catch(err => console.log('Error: ', err));
+            });
+        }
+        // Gọi hàm này khi trang đã tải xong
+        window.onload = includeHTML;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Tải header -->
+        <div data-include="../../../layout/header.html"></div>
+
+        <!-- Nội dung chính của trang -->
+        <div data-include="noi-dung-chuong-1.html"></div>
+
+        <!-- Tải footer -->
+        <div data-include="../../../layout/footer.html"></div>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
