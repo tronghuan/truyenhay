@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Comment Section</title>
+    <style>
+        .liked {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .disliked {
+            background-color: #f44336;
+            color: white;
+        }
+        .like-count, .dislike-count {
+            font-size: 0.8em;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #fff;
+            border-radius: 50%;
+            padding: 2px 5px;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Comments</h5>
+                
+                <!-- Comment Form -->
+                <form class="mb-4">
+                    <div class="form-group">
+                        <label for="comment">Leave a comment:</label>
+                        <textarea class="form-control" id="comment" rows="3" placeholder="Write your comment..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                
+                <!-- Comment List -->
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="https://via.placeholder.com/50" alt="User Avatar">
+                    <div class="media-body">
+                        <h6 class="mt-0">John Doe <small class="text-muted">- 1 hour ago</small></h6>
+                        This is a sample comment. It is a great way to get feedback from users!
+                        <div class="mt-2 position-relative">
+                            <button class="btn btn-sm btn-outline-primary mr-2 like-btn">Like <span class="badge badge-light">2</span></button>
+                            <button class="btn btn-sm btn-outline-secondary mr-2 dislike-btn">Dislike <span class="badge badge-light">3</span></button>
+                            <button class="btn btn-sm btn-outline-success mr-2 reply-btn">Reply</button>
+                            <button class="btn btn-sm btn-outline-danger">Report</button>
+                        </div>
+                        <!-- Reply Form (hidden by default) -->
+                        <form class="reply-form mt-3" style="display: none;">
+                            <div class="form-group">
+                                <label for="reply-comment">Reply:</label>
+                                <textarea class="form-control reply-text" rows="2" placeholder="Write your reply..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm reply-submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="https://via.placeholder.com/50" alt="User Avatar">
+                    <div class="media-body">
+                        <h6 class="mt-0">Jane Smith <small class="text-muted">- 3 hours ago</small></h6>
+                        Thank you for sharing this content. I found it really helpful!
+                        <div class="mt-2 position-relative">
+                            <button class="btn btn-sm btn-outline-primary mr-2 like-btn">Like <span class="badge badge-light">7</span></button>
+                            <button class="btn btn-sm btn-outline-secondary mr-2 dislike-btn">Dislike <span class="badge badge-light">7</span></button>
+                            <button class="btn btn-sm btn-outline-success mr-2 reply-btn">Reply</button>
+                            <button class="btn btn-sm btn-outline-danger">Report</button>
+                        </div>
+                        <!-- Reply Form (hidden by default) -->
+                        <form class="reply-form mt-3" style="display: none;">
+                            <div class="form-group">
+                                <label for="reply-comment">Reply:</label>
+                                <textarea class="form-control reply-text" rows="2" placeholder="Write your reply..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm reply-submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeButtons = document.querySelectorAll('.like-btn');
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const likeCountSpan = this.querySelector('.badge');
+                    let count = parseInt(likeCountSpan.textContent);
+                    likeCountSpan.textContent = count + 1;
+                });
+            });
+
+            const replyButtons = document.querySelectorAll('.reply-btn');
+            replyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const replyForm = this.closest('.media-body').querySelector('.reply-form');
+                    replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+                });
+            });
+
+            const replySubmitButtons = document.querySelectorAll('.reply-submit');
+            replySubmitButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const replyForm = this.closest('.reply-form');
+                    const replyText = replyForm.querySelector('.reply-text').value;
+                    if (replyText.trim() !== '') {
+                        const newReply = document.createElement('div');
+                        newReply.classList.add('media', 'mt-3', 'ml-5');
+                        newReply.innerHTML = `
+                            <img class="d-flex mr-3 rounded-circle" src="https://via.placeholder.com/50" alt="User Avatar">
+                            <div class="media-body">
+                                <h6 class="mt-0">You <small class="text-muted">- Just now</small></h6>
+                                ${replyText}
+                            </div>
+                        `;
+                        replyForm.style.display = 'none';
+                        replyForm.querySelector('.reply-text').value = '';
+                        this.closest('.media-body').appendChild(newReply);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
